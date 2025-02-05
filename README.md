@@ -5,15 +5,17 @@
 
 ## **⚡ 功能特色**
 ✅ 使用 **Streamlit** 建立互動式對話介面  
-✅ 透過 **Hugging Face Transformers** 進行情緒分析  
+✅ 透過 **Hugging Face Transformers** 進行情緒分析
+✅ 透過 **雲端LangFlow** 進行對話分析  
 ✅ **Docker 容器化**，可跨平台部署  
 ✅ **Docker Compose** 支援，方便管理  
 
 
-## 系統介面與分析結果
+## 系統介面與分析結果(Hugging Face Transformer情緒分析)
 ![網站介面](images/demo.png)
 
-
+## 系統介面與分析結果(介接LangFlow對話摘要)
+![網站介面](images/demo2.png)
 
 ---
 ## **📂 專案目錄結構**
@@ -59,9 +61,13 @@ streamlit run app.py
 應用將在 **http://localhost:8501** 運行。
 
 #### **🔹 方法 2：使用 Docker Compose（推薦）**
+0. **建置容器**：
+   ```bash
+   docker-compose build
+
 1. **啟動容器**：
    ```bash
-   docker-compose up --build
+   docker-compose up -d
    ```
 2. **停止容器**：
    ```bash
