@@ -1,5 +1,17 @@
 import streamlit as st
 from transformers import pipeline
+import requests
+import json
+from dotenv import load_dotenv
+import os
+
+# 讀取 .env 檔案中的環境變數
+load_dotenv()
+
+# 從環境變數讀取 Langchain API URL 和 API 金鑰
+langchain_api_url = os.getenv("LANGCHAIN_API_URL")
+api_key = os.getenv("API_KEY")
+
 
 # 設定頁面標題
 st.set_page_config(page_title="對話輸入介面", layout="wide")
@@ -26,6 +38,11 @@ if "latest_message" not in st.session_state:
 # 創建左右兩個欄位
 col1, col2 = st.columns([1, 2])
 
+# 設定 Langchain API URL 和金鑰
+langchain_api_url = "你的Langchain API endpoint"
+api_key = "你的API金鑰"
+
+
 
 # **左側：對話輸入區**
 with col1:
@@ -41,6 +58,25 @@ with col1:
             sentiment_result = sentiment_analyzer(user_input)
             st.session_state.sentiment = sentiment_result[0]  # 只取第一個分析結果
             
+            # 呼叫 Langchain API 進行對話摘要分析
+            headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+            data = {
+                "input": user_input
+            }
+
+            try:
+                # 發送 POST 請求給 Langchain API
+                response = requests.post(langchain_api_url, headers=headers, json=data)
+                response.raise_for_status()  # 若發生錯誤會觸發例外
+
+                # 解析回應
+                summary=response.json()['outputs'][0]['outputs'][0]['results']['message'].get("text", "無法獲取對話")
+                st.session_state.summary = summary
+
+            except requests.exceptions.RequestException as e:
+                st.error(f"呼叫 Langchain API 時發生錯誤: {e}")
+
+
             # **清空輸入框並更新畫面**
             st.rerun()  
 
@@ -60,4 +96,5 @@ with col2:
         sentiment = st.session_state.sentiment
         st.write(f"**情緒分析結果**: {sentiment['label']} (信心指數: {sentiment['score']:.2f})")
 
-
+    if "summary" in st.session_state:
+        st.write(f"**對話摘要**: {st.session_state.summary}")

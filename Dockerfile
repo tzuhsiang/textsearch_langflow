@@ -4,6 +4,13 @@ FROM python:3.10
 # 設定工作目錄
 WORKDIR /app
 
+
+# 設定代理伺服器
+ENV http_proxy=http://10.160.3.88:8080
+ENV https_proxy=http://10.160.3.88:8080
+
+
+
 # 複製 requirements.txt 並安裝所需套件
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
