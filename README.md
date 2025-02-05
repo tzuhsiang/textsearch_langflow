@@ -60,7 +60,7 @@ streamlit run app.py
 應用將在 **http://localhost:8501** 運行。
 
 #### **🔹 方法 2：使用 Docker Compose（推薦）**
-0. **建置容器**：
+0. **建置映像檔**：
    ```bash
    docker-compose build
 
