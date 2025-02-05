@@ -1,20 +1,19 @@
-# **Streamlit Text Analysis - Dockerized**
+# **Streamlit Text Analysis Using LangFlow**
 
 ## **📌 專案簡介**
-這是一個使用 **Streamlit** 開發的 **對話分析應用**，並整合 **Hugging Face Transformers** 進行 **情緒分析**。應用已經 **Docker 容器化**，可以快速部署。
+這是一個使用 **Streamlit** 開發的 **對話分析應用**，並使用 **LangFlow API** 進行 **對話分析**。應用已經 **Docker 容器化**，可以快速部署。
 
 ## **⚡ 功能特色**
 ✅ 使用 **Streamlit** 建立互動式對話介面  
-✅ 透過 **Hugging Face Transformers** 進行情緒分析
-✅ 透過 **雲端LangFlow** 進行對話分析  
+✅ 透過 **LangFlow API** 進行對話分析  
 ✅ **Docker 容器化**，可跨平台部署  
 ✅ **Docker Compose** 支援，方便管理  
 
 
-## 系統介面與分析結果(Hugging Face Transformer情緒分析)
+## 系統介面與分析結果(介接LangFlow對話摘要)
 ![網站介面](images/demo.png)
 
-## 系統介面與分析結果(介接LangFlow對話摘要)
+## LangFlow流程設計範例
 ![網站介面](images/demo2.png)
 
 ---
@@ -77,8 +76,7 @@ streamlit run app.py
 ---
 ## **⚙️ 技術棧**
 - **Streamlit** - 建立 Web 應用
-- **Transformers (Hugging Face)** - NLP 情緒分析
-- **Torch** - 深度學習框架
+- **LangFlow** - 對話分析推論
 - **Docker** - 容器化應用
 
 ---
