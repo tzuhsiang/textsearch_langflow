@@ -1,16 +1,16 @@
-# **Streamlit Text Analysis Using LangFlow**
+# **Streamlit Text Search Using LangFlow**
 
 ## **📌 專案簡介**
 這是一個使用 **Streamlit** 開發的 **自然語言查詢介面**，使用 **LangFlow** 進行問題拆解、網路搜尋、內容彙整。
 
 ## **⚡ 功能特色**
-✅ 使用 **Streamlit** 建立對話介面  
-✅ 透過 **LangFlow API** 進行問題拆解、網路搜尋、內容彙整
-✅ **Docker 容器化**，可跨平台部署  
-✅ **Docker Compose** 支援，方便管理  
+✅使用 **Streamlit** 建立對話介面  
+✅透過 **LangFlow API** 進行問題拆解、網路搜尋、內容彙整  
+✅**Docker 容器化**，可跨平台部署  
+✅**Docker Compose** 支援，方便管理  
 
 
-## 系統介面與分析結果(介接LangFlow對話摘要)
+## 系統介面與分析結果(介接LangFlow)
 ![網站介面](images/demo.png)
 
 ## LangFlow流程設計範例
