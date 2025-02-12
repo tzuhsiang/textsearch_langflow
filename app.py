@@ -3,6 +3,7 @@ import requests
 import json
 from dotenv import load_dotenv
 import os
+from datetime import datetime, timedelta
 
 # 讀取 .env 檔案中的環境變數
 load_dotenv()
@@ -49,45 +50,77 @@ with col1:
             
             # 呼叫 Langchain API 進行對話摘要分析
             headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-            data = {
-                "input_value": user_input
+            # data = {
+            #     "input_value": user_input
+            # }
+
+
+            data ={
+                "input_value": user_input,
+                "output_type": "text",
+                "input_type": "text",
+                "tweaks": {
+                    "TextOutput-fTzY9": { "output_format": "json" },
+                    "TextOutput-Mps7C": { "output_format": "json" },
+                    "TextOutput-JHNPu": { "output_format": "json" }
+                    }
             }
+
 
             # 發送 POST 請求給 Langchain API
             response = requests.post(langchain_api_url, headers=headers, json=data)
             response.raise_for_status()  # 若發生錯誤會觸發例外
-
-            # 解析回應
-            summary=response.json()['outputs'][0]['outputs'][0]['results']['message'].get("text", "無法獲取對話")
-            st.session_state.summary = summary
-
-            # try:
-            #     # 發送 POST 請求給 Langchain API
-            #     response = requests.post(langchain_api_url, headers=headers, json=data)
-            #     response.raise_for_status()  # 若發生錯誤會觸發例外
-
-            #     # 解析回應
-            #     summary=response.json()['outputs'][0]['outputs'][0]['results']['message'].get("text", "無法獲取對話")
-            #     st.session_state.summary = summary
-
-            # except requests.exceptions.RequestException as e:
-            #     st.error(f"呼叫 Langchain API 時發生錯誤: {e}")
+            st.session_state.outputs=response.json()["outputs"][0]["outputs"]
 
 
             # **清空輸入框並更新畫面**
-            st.rerun()  
+            st.rerun()
+
 
 # **右側：顯示對話分析紀錄**
+
 with col2:
+    if "outputs" not in st.session_state:
+        st.session_state.outputs = []
 
-    st.header("📜 對話分析")
-    
-    # 讀取最新輸入的字數
-    latest_text = st.session_state.get("latest_input", "")
-    word_count = len(latest_text.strip())  # 計算字數（去掉前後空白）
+    outputs = st.session_state.outputs
 
-    # st.write(f"輸入內容:{latest_text}")
-    st.write(f"輸入字數 **{word_count}** 個字")
+    # **1️⃣ 解析 API 回應**
+    parsed_results = {}
 
-    if "summary" in st.session_state:
-        st.write(f"**對話摘要**: {st.session_state.summary}")
+    for output in outputs:
+        component_id = output["component_id"]
+        text_content = output["results"]["text"].get("text", "")
+        timestamp = output["results"]["text"]["data"].get("timestamp", "1970-01-01 00:00:00 UTC")
+
+        # **格式化 timestamp 並轉換時區**
+        try:
+            # 去掉 " UTC"，轉換為 `datetime` 物件
+            dt_utc = datetime.strptime(timestamp.replace(" UTC", ""), "%Y-%m-%d %H:%M:%S")
+            # **時區轉換：從 UTC +8**
+            dt_taipei = dt_utc + timedelta(hours=8)
+            formatted_timestamp = dt_taipei.strftime("%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            formatted_timestamp = "格式錯誤"
+
+        # **根據 component_id 存入對應內容**
+        if component_id == "TextOutput-fTzY9":
+            parsed_results["問題拆解"] = {"text": text_content, "timestamp": formatted_timestamp}
+        elif component_id == "TextOutput-Mps7C":
+            parsed_results["資訊來源"] = {"text": text_content, "timestamp": formatted_timestamp}
+        elif component_id == "TextOutput-JHNPu":
+            parsed_results["內容彙整"] = {"text": text_content, "timestamp": formatted_timestamp}
+
+    # **2️⃣ 輸出解析結果**
+    st.header("🛠️ 問題拆解")
+    st.write(parsed_results.get("問題拆解", {}).get("timestamp", ""))
+    st.write(parsed_results.get("問題拆解", {}).get("text", ""))
+
+
+    st.header("🔎 資訊來源")
+    st.write(parsed_results.get("資訊來源", {}).get("timestamp", ""))
+    st.write(parsed_results.get("資訊來源", {}).get("text", ""))
+
+    st.header("📖 內容彙整")
+    st.write(parsed_results.get("內容彙整", {}).get("timestamp", ""))
+    st.write(parsed_results.get("內容彙整", {}).get("text", ""))

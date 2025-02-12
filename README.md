@@ -1,11 +1,11 @@
 # **Streamlit Text Analysis Using LangFlow**
 
 ## **📌 專案簡介**
-這是一個使用 **Streamlit** 開發的 **對話分析應用**，並使用 **LangFlow API** 進行 **對話分析**。應用已經 **Docker 容器化**，可以快速部署。
+這是一個使用 **Streamlit** 開發的 **自然語言查詢介面**，使用 **LangFlow** 進行問題拆解、網路搜尋、內容彙整。
 
 ## **⚡ 功能特色**
-✅ 使用 **Streamlit** 建立互動式對話介面  
-✅ 透過 **LangFlow API** 進行對話分析  
+✅ 使用 **Streamlit** 建立對話介面  
+✅ 透過 **LangFlow API** 進行問題拆解、網路搜尋、內容彙整
 ✅ **Docker 容器化**，可跨平台部署  
 ✅ **Docker Compose** 支援，方便管理  
 
