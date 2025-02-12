@@ -30,10 +30,10 @@ st.markdown("""
 if "outputs" not in st.session_state:
     st.session_state.outputs = []
 
-# 建立三個欄位
+# 建立兩個欄位
 col1, col2 = st.columns([3, 1])
 
-# **中間欄位（col2）：顯示對話分析結果**
+# **左邊欄位（col1）：顯示對話分析結果**
 with col1:
 
     parsed_results = {}
@@ -96,7 +96,7 @@ with col1:
                 # **清空輸入框並更新畫面**
                 st.rerun()
 
-# **右側欄位（col3）：資訊來源**
+# **右側欄位（col2）：資訊來源**
 with col2:
     st.header("🔎 資訊來源")
     parsed_results = {}
