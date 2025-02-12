@@ -10,7 +10,7 @@
 ✅**Docker Compose** 支援，方便管理  
 
 
-## 系統介面與分析結果(介接LangFlow)!
+## 系統介面與分析結果(介接LangFlow)
 ![網站介面](images/demo.png)
 
 ## LangFlow流程設計範例
