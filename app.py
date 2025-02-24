@@ -30,8 +30,8 @@ st.markdown("""
             overflow-y: auto;
             border: 1px solid #ddd;
             padding: 10px;
-            display: flex;
-            flex-direction: column;
+            white-space: pre-wrap;
+            font-family: sans-serif;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -77,7 +77,11 @@ with col1:
 
     st.header("📖 內容彙整")
     st.write(parsed_results.get("內容彙整", {}).get("timestamp", ""))
-    st.markdown('<div class="fixed-size-container">' + parsed_results.get("內容彙整", {}).get("text", "") + '</div>', unsafe_allow_html=True)
+    st.markdown('<div class="fixed-size-container">'
+     + parsed_results.get("內容彙整", {}).get("text", "") 
+     + '</div>', unsafe_allow_html=True)
+
+
 
     # **快速輸入按鈕 (在同一水平列靠左)**
     button_container = st.container()
